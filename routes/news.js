@@ -32,11 +32,9 @@ router.get('/everything', async (req, res, next) => {
 router.get('/sources', async (req, res, next) => {
     const endPoint = "sources";
     let {language, country} = req.query;
-    
-    const url = constructUrl(BASE_URL, endPoint, {language, country}, process.env.API_KEY)
-    
     try {
         if(!process.env.API_KEY) throw new Error("Auth failure");
+        const url = constructUrl(BASE_URL, endPoint, {language, country}, process.env.API_KEY)
         const {data, status} = await Axios.get(url);
         if(status !== 200) throw new Error("something went wrong!")
         res.send(data);
